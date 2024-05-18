@@ -55,7 +55,7 @@ def initialize():
 
     # get account numbers & hashes, this doubles to make sure that the appKey and appSecret are valid
     terminal.colorPrint.info("Filling account number and account hash -> ", end="")
-    resp = accounts.accountNumbers()
+    resp = Accounts.accountNumbers()
     if resp.ok:
         print("Done")
         credentials.accountNumber = resp.json()[0].get('accountNumber', None)
@@ -133,7 +133,8 @@ def _RefreshTokenUpdate():
 
 
 def _TokenManager(action="init", at=None, rt=None, td=None):
-    fileName = "tokens.json"
+    path = os.path.split(os.path.abspath(__file__))[0]
+    fileName = os.path.join(path, "tokens.json")
 
     def writeTokenVars(nat, nrt, ntd):
         tokens.refreshToken = ntd.get("refresh_token")
@@ -231,7 +232,7 @@ Accounts and Trading Production
 atp_url = "https://api.schwabapi.com/trader/v1"
 
 
-class accounts:
+class Accounts:
 
     @staticmethod
     def accountNumbers():  # /accounts/accountNumbers
@@ -251,7 +252,7 @@ class accounts:
                             params=_ParamsParser({'fields': fields}))
 
 
-class orders:
+class Orders:
     @staticmethod  # /accounts/{accountHash}/orders
     def getOrders(maxResults, fromEnteredTime, toEnteredTime, status=None, accountHash=None):
         if accountHash is None: accountHash = credentials.accountHash
@@ -306,7 +307,7 @@ class orders:
     """
 
 
-class transactions:
+class Transactions:
     @staticmethod  # /accounts/{accountHash}/transactions
     def transactions(startDate, endDate, types, symbol=None, accountHash=None):
         if accountHash is None: accountHash = credentials.accountHash
@@ -323,7 +324,7 @@ class transactions:
                             params={'accountNumber': accountHash, 'transactionId': transactionId})
 
 
-class userPreference:
+class UserPreference:
     @staticmethod  # /userPreference
     def userPreference():
         return requests.get(f'{atp_url}/userPreference', headers={'Authorization': f'Bearer {tokens.accessToken}'})
