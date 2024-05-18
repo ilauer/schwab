@@ -18,8 +18,11 @@ class colorPrint:
 
 
 from time import sleep
-import tkinter as tk
-from tkinter import ttk
+try:
+    import tkinter as tk
+    from tkinter import ttk
+except ImportError:  # no tk
+    pass
 import threading
 
 

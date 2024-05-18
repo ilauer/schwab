@@ -7,7 +7,7 @@ Github: https://github.com/tylerebowers/Schwab-API-Python
 import json
 import requests
 import threading
-from modules import terminal
+from . import terminal
 from datetime import datetime
 from dotenv import load_dotenv
 import os
