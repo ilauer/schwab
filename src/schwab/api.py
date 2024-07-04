@@ -33,7 +33,8 @@ class credentials:
 
 def initialize():
     # load credentials
-    load_dotenv()
+    path = os.path.dirname(__file__)
+    load_dotenv(os.path.join(path, ".env"))
     credentials.appKey = os.getenv('appKey')
     credentials.appSecret = os.getenv('appSecret')
     credentials.callbackUrl = os.getenv('callbackUrl')
